@@ -33,8 +33,8 @@
 
     <main class="max-w-4xl mx-auto -mt-10 px-6 pb-20">
         <div class="bg-white rounded-xl shadow-2xl p-8 md:p-12 border border-slate-200">
-            <form action="#" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
+            <form id="intakeForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
                 <div class="md:col-span-2">
                     <label class="block text-sm font-semibold mb-2 text-slate-700">Full Name</label>
                     <input type="text" name="client_name" placeholder="John Doe" required
@@ -93,7 +93,7 @@
                 </div>
 
                 <div class="md:col-span-2 pt-4">
-                    <button type="submit" 
+                    <button type="submit"
                         class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 rounded-lg shadow-lg transform active:scale-95 transition duration-150 uppercase tracking-widest text-sm">
                         Submit for Review
                     </button>
@@ -110,34 +110,33 @@
         &copy; 2026 Justice & Associates. All Rights Reserved. Professional Legal Counsel.
     </footer>
 
+    <script>
+        document.getElementById('intakeForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = {
+                client_name: this.client_name.value,
+                email: this.email.value,
+                phone: this.phone.value,
+                urgency: this.urgency.value,
+                preferred_contact: this.contact_method.value,
+                case_description: this.case_description.value,
+                how_did_you_find_us: this.referral.value
+            };
+
+            await fetch('YOUR_N8N_WEBHOOK_URL_HERE', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                mode: 'no-cors',
+                body: JSON.stringify(formData)
+            });
+
+            alert('Your case has been submitted. We will be in touch within 24 hours.');
+            this.reset();
+        });
+    </script>
+
 </body>
-
-<script>
-  document.getElementById('intakeForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    const formData = {
-      client_name: this.client_name.value,
-      email: this.email.value,
-      phone: this.phone.value,
-      urgency: this.urgency.value,
-      preferred_contact: this.contact_method.value,
-      case_description: this.case_description.value,
-      how_did_you_find_us: this.referral.value
-    };
-
-    await fetch('https://shihabmedia3343.app.n8n.cloud/webhook-test/1a15a774-d287-44f9-9252-63c91d16af55', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  mode: 'no-cors',
-  body: JSON.stringify(formData)
-});
-
-alert('Your case has been submitted. We will be in touch within 24 hours.');
-this.reset();
-
-  });
-</script>
 </html>
